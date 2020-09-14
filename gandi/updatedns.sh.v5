@@ -14,7 +14,7 @@ while true ; do
   if [[ "$my_ip" != "$current_ip" ]]; then
     echo "Updating $GANDI_HOST.$GANDI_DOMAIN record with IP $my_ip"
     current_ttl=$(echo $current_record | jq -r '.rrset_ttl')
-    curl -s -X PUT -H "Content-Type: application/json" -H "X-Api-Key: $GANDI_API_KEY" -d '{"rrset_ttl": '$current_ttl', "rrset_values":["'$my_ip'"]}' https://dns.api.gandi.net/api/v5/domains/$GANDI_DOMAIN/records/$GANDI_HOST/A
+    curl -s -X PUT -H "Content-Type: application/json" -H "Authorization: Apikey $GANDI_API_KEY" -d "{\"rrset_type\": \"A\",\"rrset_ttl\": 1800,\"rrset_values\": [\"$my_ip\"]}" https://api.gandi.net/v5/livedns/domains/$GANDI_DOMAIN/records/$GANDI_HOST/A
   fi
 
   # Wait 5 minutes
